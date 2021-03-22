@@ -2,11 +2,11 @@ import math
 
 #define a função que será usada no problema
 def function(x):
-    return x*math.log10(x) - 1
+    return x*(math.log10(x)) - 1
 
 #define a função de iteração
 def itfunction(x):
-    return x - 1.3*(x*math.log10(x) - 1)
+    return x - 1.3*(x*(math.log10(x)) - 1)
 
 # intervalo inicial [a,b]
 a = 2
@@ -25,10 +25,10 @@ print("|Exemplo 18\t\t|\tDados Iniciais\t|\tRaiz Aproximada\t|\tFuncao da Raiz A
 
 #-------------------- Bissecção -------------------------------
 
+k = 1
 if((b - a) < erro1):
-    print((b+a)/2 , 1)
+    x = (b+a)/2
 else:
-    k = 1
     while(1):
 
         fa = function(a)
@@ -36,13 +36,14 @@ else:
 
         if( fa*function(x) > 0):
             a = x
-        elif( fa*function(x) < 0):
+        else:
             b = x
-
         if ((b - a) < erro1):
-            meio = (b+a)/2
+            x = (a+b)/2
             break
+
         k = k + 1
+
 print("|---------------|-------------------|-------------------|-------------------------------|---------------|-------------------|")
 print("|Bisseccao\t\t|\t\t[%d,%d]\t\t|\t %.8f \t|\t\t\t%.8f\t\t\t|\t %.8f |\t\t %d \t\t|" % (z, r, x, function(x), b - a, k))
 
@@ -59,13 +60,15 @@ r = b
 fa = function(a)
 fb = function(b)
 
+#calcular o número de iterações
+k = 1
+
 if((b-a) < erro1):
    print((a*fb-b*fa)/(fb-fa))
 else:
     if ((math.fabs(fa) < erro2) or (math.fabs(fb) < erro2)):
         x = a
     else:
-        k = 1
         while(1):
             fa = function(a)
             fb = function(b)
@@ -93,10 +96,12 @@ xinicial = 2.5
 #z serve para salvar o valor de x inicial
 z = xinicial
 
+#calcular o número de iterações
+k = 1
+
 if(math.fabs(xinicial) < erro1):
     x = xinicial
 else:
-    k = 1
     while(1):
         x = itfunction(xinicial)
         if((math.fabs(function(x)) < erro1) or (math.fabs(x - xinicial) < erro2)):
@@ -108,6 +113,33 @@ else:
 
 #----------------------------Newton-Rhapson------------------------------------------------------
 
+#constante que representa 1/log(e,10)
+logneperiano = 0.43429
+
+def derivada(x):
+    return math.log10(x) + logneperiano
+
+xinicial = 2.5
+
+z = xinicial
+
+#calcular o número de iterações
+k = 1
+
+if(abs(function(xinicial)) < erro1):
+    x = xinicial
+else:
+    while(1):
+        x = xinicial - (function(xinicial)/derivada(xinicial))
+        if(abs(function(x)) < erro1 or abs(x - xinicial) < erro2):
+            break
+
+        xinicial = x
+        k = k + 1
+
+print("|---------------|-------------------|-------------------|-------------------------------|---------------|-------------------|")
+print("|Newton-Rhapsody|\t x0 = %.1f \t\t|\t %.8f \t|\t\t\t%.8f\t\t\t|\t %.8f |\t\t %d \t\t\t|" % (z, x, function(x), abs(x - xinicial), k))
+
 #-------------------------------Secante----------------------------------------------------------
 
 x0 = 2.3
@@ -117,13 +149,15 @@ x1 = 2.7
 z = x0
 r = x1
 
+#calcular o número de iterações
+k = 1
+
 if(math.fabs(function(x0)) < erro1):
     x = x0
 else:
     if(math.fabs(function(x1)) < erro1 or math.fabs(x1-x0) < erro2):
         x = x1
     else:
-        k = 1
         while(1):
             x = x1 - (function(x1))/(function(x1)-function(x0))*(x1-x0)
             if(math.fabs(function(x)) < erro1 or math.fabs(x-x1) < erro2):

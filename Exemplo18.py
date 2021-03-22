@@ -5,13 +5,13 @@ e = 2.71828182
 
 #define a função que será usada no problema
 def function(x):
-    q = math.pow(x,2)
-    return math.pow(e,-q) - math.cos(x)
+    q = pow(x,2)
+    return pow(e,-q) - math.cos(x)
 
 #define a função de iteração
 def itfunction(x):
-    q = math.pow(x,2)
-    return math.cos(x) - math.pow(e,-q) + x
+    q = pow(x,2)
+    return math.cos(x) - pow(e,-q) + x
 
 # intervalo inicial [a,b]
 a = 1
@@ -30,10 +30,12 @@ print("|Exemplo 18\t\t|\tDados Iniciais\t|\tRaiz Aproximada\t|\tFuncao da Raiz A
 
 #-------------------- Bissecção -------------------------------
 
+#calcular o número de iterações
+k = 1
+
 if((b - a) < erro1):
-    print((b+a)/2 , 1)
+    x = (a+b)/2
 else:
-    k = 1
     while(1):
 
         fa = function(a)
@@ -41,12 +43,13 @@ else:
 
         if( fa*function(x) > 0):
             a = x
-        elif( fa*function(x) < 0):
+        else:
             b = x
 
         if ((b - a) < erro1):
-            meio = (b+a)/2
+            x = (a + b) / 2
             break
+
         k = k + 1
 print("|---------------|-------------------|-------------------|-------------------------------|---------------|-------------------|")
 print("|Bisseccao\t\t|\t\t[%d,%d]\t\t|\t %.8f \t|\t\t\t%.8f\t\t\t|\t %.8f |\t\t %d \t\t|" % (z, r, x, function(x), b - a, k))
@@ -64,19 +67,21 @@ r = b
 fa = function(a)
 fb = function(b)
 
+#calcular o número de iterações
+k = 1
+
 if((b-a) < erro1):
    print((a*fb-b*fa)/(fb-fa))
 else:
-    if ((math.fabs(fa) < erro2) or (math.fabs(fb) < erro2)):
+    if ((abs(fa) < erro2) or (abs(fb) < erro2)):
         x = a
     else:
-        k = 1
         while(1):
             fa = function(a)
             fb = function(b)
             x = (a*fb - b*fa)/(fb - fa)
 
-            if(math.fabs(function(x)) < erro2):
+            if(abs(function(x)) < erro2):
                 break
 
             if(fa*function(x) > 0):
@@ -98,13 +103,15 @@ xinicial = 1.5
 #z serve para salvar o valor de x inicial
 z = xinicial
 
-if(math.fabs(xinicial) < erro1):
+#calcular o número de iterações
+k = 1
+
+if(abs(xinicial) < erro1):
     x = xinicial
 else:
-    k = 1
     while(1):
         x = itfunction(xinicial)
-        if((math.fabs(function(x)) < erro1) or (math.fabs(x - xinicial) < erro2)):
+        if((abs(function(x)) < erro1) or (abs(x - xinicial) < erro2)):
             break
         xinicial = x
         k = k + 1
@@ -112,6 +119,31 @@ else:
     print("|MPF\t\t\t|\t x0 = %.1f \t\t|\t %.8f \t|\t\t\t%.8f\t\t\t|\t %.8f |\t\t %d \t\t\t|" % (z, x, function(x), math.fabs(x - xinicial), k))
 
 #----------------------------Newton-Rhapson------------------------------------------------------
+
+def derivada(x):
+    q = pow(x, 2)
+    return -2*(pow(e,-q))*x+math.sin(x)
+
+xinicial = 1.5
+
+z = xinicial
+
+#calcular o número de iterações
+k = 1
+
+if(abs(function(xinicial)) < erro1):
+    x = xinicial
+else:
+    while(1):
+        x = xinicial - (function(xinicial)/derivada(xinicial))
+        if(abs(function(x)) < erro1 or abs(x - xinicial) < erro2):
+            break
+
+        xinicial = x
+        k = k + 1
+
+print("|---------------|-------------------|-------------------|-------------------------------|---------------|-------------------|")
+print("|Newton-Rhapsody|\t x0 = %.1f \t\t|\t %.8f \t|\t\t\t%.8f\t\t\t|\t %.8f |\t\t %d \t\t\t|" % (z, x, function(x), abs(x - xinicial), k))
 
 #-------------------------------Secante----------------------------------------------------------
 
@@ -122,16 +154,18 @@ x1 = 2
 z = x0
 r = x1
 
-if(math.fabs(function(x0)) < erro1):
+#calcular o número de iterações
+k = 1
+
+if(abs(function(x0)) < erro1):
     x = x0
 else:
-    if(math.fabs(function(x1)) < erro1 or math.fabs(x1-x0) < erro2):
+    if(abs(function(x1)) < erro1 or abs(x1-x0) < erro2):
         x = x1
     else:
-        k = 1
         while(1):
             x = x1 - (function(x1))/(function(x1)-function(x0))*(x1-x0)
-            if(math.fabs(function(x)) < erro1 or math.fabs(x-x1) < erro2):
+            if(abs(function(x)) < erro1 or abs(x-x1) < erro2):
                 break
             x0 = x1
             x1 = x

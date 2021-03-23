@@ -71,7 +71,7 @@ fb = function(b)
 k = 1
 
 if((b-a) < erro1):
-   print((a*fb-b*fa)/(fb-fa))
+   x = ((a*fb-b*fa)/(fb-fa))
 else:
     if ((math.fabs(fa) < erro2) or (math.fabs(fb) < erro2)):
         x = a

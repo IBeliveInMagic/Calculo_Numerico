@@ -21,7 +21,7 @@ erro1 = pow(10,-7)
 erro2 = pow(10,-7)
 
 print("_____________________________________________________________________________________________________________________________")
-print("|Exemplo 18\t\t|\tDados Iniciais\t|\tRaiz Aproximada\t|\tFuncao da Raiz Aproximada\t|\tErro em x\t|\tNº de iteracoes |")
+print("|Exemplo 21\t\t|\tDados Iniciais\t|\tRaiz Aproximada\t|\tFuncao da Raiz Aproximada\t|\tErro em x\t|\tNº de iteracoes |")
 
 #-------------------- Bissecção -------------------------------
 
